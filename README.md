@@ -1,4 +1,4 @@
-# EPZ
+# ft
 查看文件可能的格式
 # 引用
 ### magicBytes
