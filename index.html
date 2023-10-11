@@ -1,0 +1,36 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIP HIDE</title>
+<script>
+onerror = function (e){
+    div.innerHTML = e
+}
+onunhandledrejection = function(e){
+    div.innerHTML = e.reason
+}
+</script>
+<h1>识别文件格式</h1>
+<h3>文件识别</h3>
+<input type="file" id="ff"><br>
+<div id="div" style="font-size: large;"></div>
+<script src="filetype.js"></script>
+<script>
+ff.onchange =  function(){
+    div.innerHTML = "";
+    if(!ff.value) return;
+    ee =  ff.files[0];
+    fx = new FileReader();
+    fx.onload = function(){
+        result = new Uint8Array(fx.result)
+        data = result[0]<<24|result[1]<<16|result[2]<<8|result[3];
+        type = r(result);
+        if(data == 0x04224d18) type.push("lz4");
+        if(data == 0x45505a3e || data == 0x45505a01 || data == 0x45505a02 || data == 0x45505a03) type.push("epz");
+       div.innerHTML = "可能的格式是<br>" +  type;
+    }
+    fx.onerror = function(e){
+        div.innerHTML = f.error
+    }
+    fx.readAsArrayBuffer(new Blob([ee.slice(0,32),ee.slice(-32)]));
+} 
+</script>
